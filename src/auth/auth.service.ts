@@ -7,6 +7,7 @@ import { AuthDto } from './dto/auth.dto'
 import { JwtService } from '@nestjs/jwt'
 import { UpdateUserDto, UserDto } from './dto/user.dto'
 import { JWTToken } from './types/JWTToken.type'
+import { testUser } from './../data/mock/testUserData.mock'
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,9 @@ export class AuthService {
   ) {}
 
   async register(user: User) {
+    const userIsValid = await user.isValid()
+    if (!userIsValid) throw new HttpException('Invalid user', 400)
+
     user.password = await bcrypt.hash(user.password, 12)
 
     const userExists = await this.authRepository.findOne({
@@ -57,5 +61,13 @@ export class AuthService {
     user = Object.assign(user, updateUserDto)
 
     return this.authRepository.save(user)
+  }
+
+  deleteTestUser() {
+    return this.authRepository.delete(testUser)
+  }
+
+  createTestUser() {
+    return this.authRepository.save(testUser)
   }
 }
