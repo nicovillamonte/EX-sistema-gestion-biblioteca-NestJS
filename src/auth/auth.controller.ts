@@ -46,7 +46,7 @@ export class AuthController {
     return req.user
   }
 
-  @Patch('update')
+  @Patch()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update user information' })
   @UseInterceptors(ClassSerializerInterceptor)
@@ -58,8 +58,6 @@ export class AuthController {
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
     const user: User = req.user as User
-
-    console.log('user', user.id, updateUserDto.id)
 
     if (updateUserDto.id !== user.id) {
       throw new UnauthorizedException(
