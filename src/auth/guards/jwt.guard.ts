@@ -7,6 +7,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    if (process.env.WITH_AUTH === 'false') {
+      return true
+    }
+
     return super.canActivate(context)
   }
 }

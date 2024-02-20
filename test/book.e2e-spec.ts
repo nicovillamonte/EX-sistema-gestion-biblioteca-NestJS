@@ -9,6 +9,10 @@ describe('Book API (e2e)', () => {
   const path = '/book'
   let app: INestApplication
 
+  beforeAll(async () => {
+    process.env.WITH_AUTH = 'false'
+  })
+
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [BookModule, TypeOrmModule.forRoot(dataBaseConfig)],
