@@ -4,9 +4,18 @@ import { dataBaseConfig } from './config/database.config'
 import { BookModule } from './book/book.module'
 import { AuthorModule } from './author/author.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [BookModule, TypeOrmModule.forRoot(dataBaseConfig), AuthorModule, AuthModule],
+  imports: [
+    TypeOrmModule.forRoot(dataBaseConfig),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    BookModule,
+    AuthorModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
