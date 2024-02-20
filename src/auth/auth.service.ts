@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   deleteTestUser() {
-    return this.authRepository.delete(testUser)
+    return this.authRepository.delete({ email: testUser.email })
   }
 
   createTestUser() {
