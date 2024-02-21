@@ -85,7 +85,7 @@ export class Book {
     return lending
   }
 
-  returnBook() {
+  return() {
     this.quantity += 1
   }
 }

@@ -75,4 +75,8 @@ export class Lending {
     const errors = await validate(this)
     return errors.length === 0
   }
+
+  returnBook() {
+    this.user.returnBook(this.book)
+  }
 }
