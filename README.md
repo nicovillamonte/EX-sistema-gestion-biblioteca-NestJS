@@ -9,9 +9,9 @@
 	- [X] **Actualizar libros**: Permitir actualizar la información de un libro existente.
 	- [X] **Eliminar libros**: Permitir eliminar un libro del sistema.
 2. **Préstamos**:
-	- [ ] **Realizar préstamo**: Permitir a un usuario realizar el préstamo de un libro. Se debe verificar la disponibilidad del libro.
-	- [ ] **Devolución de libros**: Habilitar la devolución de libros prestados.
-	- [ ] **Historial de préstamos**: Permitir consultar el historial de préstamos de un usuario.
+	- [X] **Realizar préstamo**: Permitir a un usuario realizar el préstamo de un libro. Se debe verificar la disponibilidad del libro.
+	- [X] **Devolución de libros**: Habilitar la devolución de libros prestados.
+	- [X] **Historial de préstamos**: Permitir consultar el historial de préstamos de un usuario.
 3. **Gestión de Usuarios**:
 	- [X] **Registro de usuarios**: Permitir el registro de nuevos usuarios con información básica como nombre, correo electrónico y contraseña.
 	- [X] **Autenticación de usuarios**: Implementar un sistema de autenticación para permitir a los usuarios acceder a sus cuentas.
@@ -28,8 +28,8 @@
 
 **Tests**: Escribe pruebas unitarias y de integración para tu API.
   - [ ] **Pruebas Unitarias**: Escribe pruebas para verificar el comportamiento de las funciones y métodos de tu aplicación.
-  - [ ]  **Pruebas de Integración**: Escribe pruebas para verificar el comportamiento de los endpoints de tu API.
-  - [ ]  **Pruebas E2E**: Escribe pruebas de extremo a extremo para verificar el comportamiento de la API en su conjunto.
+  - [ ] **Pruebas de Integración**: Escribe pruebas para verificar el comportamiento de los endpoints de tu API.
+  - [X] **Pruebas E2E**: Escribe pruebas de extremo a extremo para verificar el comportamiento de la API en su conjunto.
 
 
 **Contenedorización**: 
