@@ -1,22 +1,18 @@
 import {
   Controller,
-  Get,
   Post,
-  Body,
-  Patch,
   Param,
-  Delete,
   UseGuards,
   Req,
   HttpException,
 } from '@nestjs/common'
 import { LendingService } from './lending.service'
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard'
 import { Request } from 'express'
 import { AuthService } from './../auth/auth.service'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { User } from './../auth/entities/user.entity'
 import { BookService } from './../book/book.service'
+import { JwtAuthGuard } from './../auth/guards/jwt.guard'
 
 @Controller('lending')
 @ApiBearerAuth()
@@ -32,7 +28,6 @@ export class LendingController {
   @ApiOperation({ summary: 'Lend a book' })
   @UseGuards(JwtAuthGuard)
   async create(@Req() req: Request, @Param('bookISBN') isbn: string) {
-    console.info('req.user', req.user)
     let { id: userId } = req.user as User
     const user = await this.authService.findOne(userId)
 
