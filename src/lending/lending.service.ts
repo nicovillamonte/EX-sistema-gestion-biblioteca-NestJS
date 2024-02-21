@@ -39,4 +39,8 @@ export class LendingService {
 
     return lending
   }
+
+  resetDatabase() {
+    return this.dataSource.query('DELETE FROM lending')
+  }
 }
