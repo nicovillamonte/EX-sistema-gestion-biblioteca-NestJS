@@ -104,4 +104,8 @@ export class User {
     let lendingModified = plainToInstance(Lending, lendingPlain)
     return lendingModified
   }
+
+  returnBook(book: Book) {
+    book.return()
+  }
 }
