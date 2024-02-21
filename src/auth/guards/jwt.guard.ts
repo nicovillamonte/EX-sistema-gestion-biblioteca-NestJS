@@ -10,7 +10,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (process.env.WITH_AUTH === 'false') {
       return true
     }
-
     return super.canActivate(context)
   }
 }

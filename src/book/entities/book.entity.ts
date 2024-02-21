@@ -9,15 +9,10 @@ import {
 } from 'class-validator'
 import { BookDto, UpdateBookDto } from '../dto/book.dto'
 import { NotAvailableError } from '../../errors/notAvailable.error'
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  PrimaryColumn,
-} from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm'
 import { Author } from '../../author/entities/author.entity'
+import { User } from './../../auth/entities/user.entity'
+import { Lending } from './../../lending/entities/lending.entity'
 
 @Entity()
 export class Book {
@@ -54,7 +49,7 @@ export class Book {
     this.quantity = quantity
   }
 
-  toDTO(): BookDto {
+  toDto(): BookDto {
     return {
       ISBN: this.ISBN,
       title: this.title,
@@ -63,7 +58,7 @@ export class Book {
     }
   }
 
-  static fromDTO(dto: BookDto | UpdateBookDto): Book {
+  static fromDto(dto: BookDto | UpdateBookDto): Book {
     return new Book(
       dto.ISBN,
       dto.title,
@@ -81,11 +76,13 @@ export class Book {
     return this.quantity > 0
   }
 
-  borrowBook() {
+  borrowTo(user: User): Lending {
     if (!this.isAvailable()) {
       throw new NotAvailableError('Book is not available')
     }
     this.quantity -= 1
+    const lending = new Lending(null, user, this, new Date())
+    return lending
   }
 
   returnBook() {

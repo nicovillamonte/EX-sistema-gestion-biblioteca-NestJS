@@ -10,7 +10,14 @@ import {
 import { UserDto } from '../dto/user.dto'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { RegisterDto } from '../dto/auth.dto'
-import { Exclude } from 'class-transformer'
+import {
+  Exclude,
+  instanceToInstance,
+  instanceToPlain,
+  plainToInstance,
+} from 'class-transformer'
+import { Book } from './../../book/entities/book.entity'
+import { Lending } from './../../lending/entities/lending.entity'
 
 @Entity()
 export class User {
@@ -87,5 +94,14 @@ export class User {
   async isValid(): Promise<boolean> {
     const errors = await validate(this)
     return errors.length === 0
+  }
+
+  takeABook(book: Book): Lending {
+    const lending = book.borrowTo(this)
+
+    let lendingPlain = instanceToPlain(lending)
+    delete lendingPlain.book.quantity
+    let lendingModified = plainToInstance(Lending, lendingPlain)
+    return lendingModified
   }
 }

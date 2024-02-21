@@ -16,6 +16,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  findOne(id: number) {
+    return this.authRepository.findOne({
+      where: { id },
+    })
+  }
+
   async register(user: User) {
     const userIsValid = await user.isValid()
     if (!userIsValid) throw new HttpException('Invalid user', 400)

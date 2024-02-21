@@ -56,7 +56,7 @@ export class BookService {
     })
   }
 
-  async update(book: Book, updateBookDto: UpdateBookDto) {
+  async update(book: Book, updateBookDto: UpdateBookDto = book) {
     book = Object.assign(book, updateBookDto)
 
     if (updateBookDto.authors && updateBookDto.authors.length > 0) {

@@ -45,7 +45,7 @@ export class BookController {
   })
   @ApiBody({ type: BookDto })
   async create(@Body() createBookDto: BookDto) {
-    const book = Book.fromDTO(createBookDto)
+    const book = Book.fromDto(createBookDto)
     return this.bookService.create(book, createBookDto.authors)
   }
 
