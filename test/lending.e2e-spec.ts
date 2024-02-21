@@ -1,5 +1,5 @@
 import * as request from 'supertest'
-import { INestApplication } from '@nestjs/common'
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { dataBaseConfig } from './../src/config/database-test.config'
@@ -23,6 +23,7 @@ describe('Lending API (e2e)', () => {
   let book: Book
   let user: User
   let token: string
+  let lendingID: string
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -72,15 +73,36 @@ describe('Lending API (e2e)', () => {
 
   beforeEach(async () => {})
 
-  it('Lend Book (POST /lending)', () => {
-    return request(app.getHttpServer())
+  it('Lend Book (POST /lending)', async () => {
+    const response = await request(app.getHttpServer())
       .post(`${path}/9780132350884`)
       .set('Authorization', `Bearer ${token}`)
-      .expect(201)
+      .expect(HttpStatus.CREATED)
       .expect(({ body: lending }: { body: Lending }) => {
         expect(lending).toHaveProperty('id')
         expect(lending.user.id).toBe(user.id)
         expect(lending.book.ISBN).toBe(book.ISBN)
       })
+
+    lendingID = response.body.id
+
+    const bookResponse = await bookService.search('9780132350884')
+    expect(bookResponse[0].quantity).toBe(0)
+
+    return response
+  })
+
+  it('Return Book (POST /lending/return/:id)', async () => {
+    console.info('lendingID', lendingID)
+    await request(app.getHttpServer())
+      .post(`${path}/return/${lendingID}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(HttpStatus.CREATED)
+      .expect(({ body: lending }) => {
+        expect(lending.returnDate).not.toBe(undefined)
+      })
+
+    const bookResponse = await bookService.search('9780132350884')
+    expect(bookResponse[0].quantity).toBe(1)
   })
 })
