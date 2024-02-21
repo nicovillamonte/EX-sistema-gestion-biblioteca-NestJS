@@ -24,6 +24,30 @@ export class LendingController {
     private readonly bookService: BookService,
   ) {}
 
+  @Post('return/:lendingID')
+  @ApiOperation({ summary: 'Return a book' })
+  @UseGuards(JwtAuthGuard)
+  async return(@Req() req: Request, @Param('lendingID') lendingID: number) {
+    let { id: userId } = req.user as User
+    const user = await this.authService.findOne(userId)
+
+    if (!user) {
+      throw new HttpException('User not found', 404)
+    }
+
+    const lending = await this.lendingService.findOne(lendingID)
+
+    if (!lending) {
+      throw new HttpException('Lending not found', 404)
+    }
+
+    if (lending.user.id !== user.id) {
+      throw new HttpException('User not allowed to return this book', 403)
+    }
+
+    return this.lendingService.returnBook(lending)
+  }
+
   @Post(':bookISBN')
   @ApiOperation({ summary: 'Lend a book' })
   @UseGuards(JwtAuthGuard)

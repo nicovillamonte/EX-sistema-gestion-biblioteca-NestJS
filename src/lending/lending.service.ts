@@ -40,6 +40,25 @@ export class LendingService {
     return lending
   }
 
+  async returnBook(lending: Lending) {
+    lending.returnBook()
+    lending.returnDate = new Date()
+
+    await this.dataSource.transaction(async (manager) => {
+      lending = await manager.save(lending)
+      await manager.save(lending.book)
+    })
+
+    return lending
+  }
+
+  findOne(lendingID: number) {
+    return this.lendingRepository.findOne({
+      where: { id: lendingID },
+      relations: ['book', 'user'],
+    })
+  }
+
   resetDatabase() {
     return this.dataSource.query('DELETE FROM lending')
   }
