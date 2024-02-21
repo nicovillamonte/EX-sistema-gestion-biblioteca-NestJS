@@ -73,36 +73,75 @@ describe('Lending API (e2e)', () => {
 
   beforeEach(async () => {})
 
-  it('Lend Book (POST /lending)', async () => {
-    const response = await request(app.getHttpServer())
-      .post(`${path}/9780132350884`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(HttpStatus.CREATED)
-      .expect(({ body: lending }: { body: Lending }) => {
-        expect(lending).toHaveProperty('id')
-        expect(lending.user.id).toBe(user.id)
-        expect(lending.book.ISBN).toBe(book.ISBN)
-      })
+  describe('Lend Book (POST /lending)', () => {
+    it('should return a 201 status and the lending information', async () => {
+      const response = await request(app.getHttpServer())
+        .post(`${path}/9780132350884`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(HttpStatus.CREATED)
+        .expect(({ body: lending }: { body: Lending }) => {
+          expect(lending).toHaveProperty('id')
+          expect(lending.user.id).toBe(user.id)
+          expect(lending.book.ISBN).toBe(book.ISBN)
+        })
 
-    lendingID = response.body.id
+      lendingID = response.body.id
 
-    const bookResponse = await bookService.search('9780132350884')
-    expect(bookResponse[0].quantity).toBe(0)
+      const bookResponse = await bookService.search('9780132350884')
+      expect(bookResponse[0].quantity).toBe(0)
 
-    return response
+      return response
+    })
   })
 
-  it('Return Book (POST /lending/return/:id)', async () => {
-    console.info('lendingID', lendingID)
-    await request(app.getHttpServer())
-      .post(`${path}/return/${lendingID}`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(HttpStatus.CREATED)
-      .expect(({ body: lending }) => {
-        expect(lending.returnDate).not.toBe(undefined)
-      })
+  describe('Return Book (POST /lending/return/:id)', () => {
+    it('should return a 201 status and the lending with the returnDate modified. Also, the book should add 1 to the quantity', async () => {
+      console.info('lendingID', lendingID)
+      await request(app.getHttpServer())
+        .post(`${path}/return/${lendingID}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(HttpStatus.CREATED)
+        .expect(({ body: lending }) => {
+          expect(lending.returnDate).not.toBe(undefined)
+        })
 
-    const bookResponse = await bookService.search('9780132350884')
-    expect(bookResponse[0].quantity).toBe(1)
+      const bookResponse = await bookService.search('9780132350884')
+      expect(bookResponse[0].quantity).toBe(1)
+    })
+
+    it('should throw a 404 error when the lending id is not valid', () => {
+      return request(app.getHttpServer())
+        .post(`${path}/return/-1`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(HttpStatus.NOT_FOUND)
+    })
+
+    it('Return Book when it was returned before should throw a conflict error', () => {
+      return request(app.getHttpServer())
+        .post(`${path}/return/${lendingID}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(HttpStatus.CONFLICT)
+    })
   })
+
+  describe('Lending User History (GET /lending/history)', () => {
+    it('should return a 200 status and the user lending history', () => {
+      return request(app.getHttpServer())
+        .get(`${path}/${user.id}`)
+        .expect(HttpStatus.OK)
+        .expect(({ body: lendings }: { body: Lending[] }) => {
+          expect(lendings.length).toBe(1)
+          expect(lendings[0].user.id).toBe(user.id)
+          expect(lendings[0].user).not.toHaveProperty('password')
+          expect(lendings[0].book).not.toHaveProperty('quantity')
+        })
+    })
+
+    it('should throw a 404 error when the user id is not valid', () => {
+      return request(app.getHttpServer())
+        .get(`${path}/-1`)
+        .expect(HttpStatus.NOT_FOUND)
+    })
+  })
+
 })
