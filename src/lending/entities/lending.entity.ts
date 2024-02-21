@@ -73,7 +73,6 @@ export class Lending {
 
   async isValid() {
     const errors = await validate(this)
-    console.info('Lending errors', errors)
     return errors.length === 0
   }
 }
