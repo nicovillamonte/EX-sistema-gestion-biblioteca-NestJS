@@ -4,7 +4,12 @@ import { Book } from './../book/entities/book.entity'
 import { Lending } from './entities/lending.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
-import { classToPlain, instanceToInstance } from 'class-transformer'
+import {
+  classToPlain,
+  instanceToInstance,
+  instanceToPlain,
+  plainToInstance,
+} from 'class-transformer'
 import { BookService } from './../book/book.service'
 
 @Injectable()
@@ -49,7 +54,7 @@ export class LendingService {
       await manager.save(lending.book)
     })
 
-    return lending
+    return this.hideBookQuantity(lending)
   }
 
   findOne(lendingID: number) {
@@ -57,6 +62,22 @@ export class LendingService {
       where: { id: lendingID },
       relations: ['book', 'user'],
     })
+  }
+
+  async findUserLendingHistory(user: User): Promise<Lending[]> {
+    const lending = await this.lendingRepository.find({
+      where: { user: user },
+      relations: ['book', 'book.authors', 'user'],
+    })
+
+    return lending.map((lending) => this.hideBookQuantity(lending))
+  }
+
+  private hideBookQuantity(lending: Lending): Lending {
+    let lendingPlain = instanceToPlain(lending)
+    delete lendingPlain.book.quantity
+    let lendingModified = plainToInstance(Lending, lendingPlain)
+    return lendingModified
   }
 
   resetDatabase() {

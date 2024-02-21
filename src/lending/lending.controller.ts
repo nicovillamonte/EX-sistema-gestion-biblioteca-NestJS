@@ -5,6 +5,8 @@ import {
   UseGuards,
   Req,
   HttpException,
+  HttpStatus,
+  Get,
 } from '@nestjs/common'
 import { LendingService } from './lending.service'
 import { Request } from 'express'
@@ -31,19 +33,21 @@ export class LendingController {
     let { id: userId } = req.user as User
     const user = await this.authService.findOne(userId)
 
-    if (!user) {
-      throw new HttpException('User not found', 404)
-    }
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND)
 
     const lending = await this.lendingService.findOne(lendingID)
 
-    if (!lending) {
-      throw new HttpException('Lending not found', 404)
-    }
+    if (!lending)
+      throw new HttpException('Lending not found', HttpStatus.NOT_FOUND)
 
-    if (lending.user.id !== user.id) {
-      throw new HttpException('User not allowed to return this book', 403)
-    }
+    if (lending.returnDate)
+      throw new HttpException('Book already returned', HttpStatus.CONFLICT)
+
+    if (lending.user.id !== user.id)
+      throw new HttpException(
+        'User not allowed to return this book',
+        HttpStatus.FORBIDDEN,
+      )
 
     return this.lendingService.returnBook(lending)
   }
@@ -56,15 +60,27 @@ export class LendingController {
     const user = await this.authService.findOne(userId)
 
     if (!user) {
-      throw new HttpException('User not found', 404)
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
     }
 
     const book = await this.bookService.search(isbn)
 
     if (book.length === 0) {
-      throw new HttpException('Book not found', 404)
+      throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
     }
 
     return this.lendingService.lendBook(user, book[0])
+  }
+
+  @Get(':userId')
+  @ApiOperation({ summary: 'Get user lending history' })
+  async history(@Param('userId') userId: number) {
+    const user = await this.authService.findOne(userId)
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+    }
+
+    return this.lendingService.findUserLendingHistory(user)
   }
 }
