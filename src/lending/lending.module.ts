@@ -4,7 +4,7 @@ import { LendingController } from './lending.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Lending } from './entities/lending.entity'
 import { AuthModule } from './../auth/auth.module'
-import { BookModule } from 'src/book/book.module'
+import { BookModule } from './../book/book.module'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Lending]), AuthModule, BookModule],
