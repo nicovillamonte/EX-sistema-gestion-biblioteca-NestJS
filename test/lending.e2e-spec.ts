@@ -96,7 +96,6 @@ describe('Lending API (e2e)', () => {
 
   describe('Return Book (POST /lending/return/:id)', () => {
     it('should return a 201 status and the lending with the returnDate modified. Also, the book should add 1 to the quantity', async () => {
-      console.info('lendingID', lendingID)
       await request(app.getHttpServer())
         .post(`${path}/return/${lendingID}`)
         .set('Authorization', `Bearer ${token}`)
