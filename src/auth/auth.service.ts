@@ -74,6 +74,8 @@ export class AuthService {
   }
 
   createTestUser() {
-    return this.authRepository.save(testUser)
+    return this.register(
+      new User(null, testUser.name, testUser.email, testUser.password),
+    )
   }
 }
