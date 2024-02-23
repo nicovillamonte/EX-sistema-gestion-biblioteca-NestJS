@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumberString,
   IsString,
   IsStrongPassword,
   MinLength,
@@ -10,12 +9,7 @@ import {
 import { UserDto } from '../dto/user.dto'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { RegisterDto } from '../dto/auth.dto'
-import {
-  Exclude,
-  instanceToInstance,
-  instanceToPlain,
-  plainToInstance,
-} from 'class-transformer'
+import { Exclude, instanceToPlain, plainToInstance } from 'class-transformer'
 import { Book } from './../../book/entities/book.entity'
 import { Lending } from './../../lending/entities/lending.entity'
 

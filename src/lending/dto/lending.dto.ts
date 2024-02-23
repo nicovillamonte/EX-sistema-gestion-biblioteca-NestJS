@@ -1,14 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform, Type } from 'class-transformer'
-import {
-  IsDate,
-  IsDateString,
-  IsISBN,
-  IsNumber,
-  IsNumberString,
-  IsOptional,
-  MinDate,
-} from 'class-validator'
+import { IsISBN, IsNumber, IsNumberString, IsOptional } from 'class-validator'
 import { IsValidDate } from './../../utils/validators/isValidDate.validator'
 
 export class LendingDto {

@@ -1,13 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Book } from './../../book/entities/book.entity'
 import { User } from './../../auth/entities/user.entity'
-import {
-  IsDate,
-  IsDateString,
-  IsObject,
-  IsOptional,
-  validate,
-} from 'class-validator'
+import { IsObject, IsOptional, validate } from 'class-validator'
 import { LendingDto } from '../dto/lending.dto'
 import { IsValidDate } from './../../utils/validators/isValidDate.validator'
 

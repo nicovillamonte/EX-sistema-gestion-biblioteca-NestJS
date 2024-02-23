@@ -4,12 +4,7 @@ import { Book } from './../book/entities/book.entity'
 import { Lending } from './entities/lending.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
-import {
-  classToPlain,
-  instanceToInstance,
-  instanceToPlain,
-  plainToInstance,
-} from 'class-transformer'
+import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { BookService } from './../book/book.service'
 
 @Injectable()

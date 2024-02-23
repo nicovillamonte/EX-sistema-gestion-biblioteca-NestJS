@@ -1,15 +1,11 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
   Patch,
-  Param,
-  Delete,
   UseGuards,
   Req,
   UnauthorizedException,
-  HttpException,
   ClassSerializerInterceptor,
   UseInterceptors,
 } from '@nestjs/common'
@@ -19,10 +15,8 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { User } from './entities/user.entity'
 import { LocalGuard } from './guards/local.guard'
 import { Request } from 'express'
-import { AuthGuard } from '@nestjs/passport'
 import { JwtAuthGuard } from './guards/jwt.guard'
 import { UpdateUserDto } from './dto/user.dto'
-import { JWTToken } from './types/JWTToken.type'
 
 @Controller('auth')
 @ApiTags('Authentication')
