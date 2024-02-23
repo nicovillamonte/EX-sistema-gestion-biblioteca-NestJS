@@ -49,7 +49,7 @@ export class BookService {
     return this.bookRepository.find({
       where: [
         { title: ILike(`%${query}%`) },
-        { ISBN: query },
+        { ISBN: query.replace(/-/g, '') },
         { authors: { name: ILike(`%${query}%`) } },
       ],
       relations: ['authors'],
@@ -71,6 +71,8 @@ export class BookService {
       )
       book.authors = updatedAuthors
     }
+
+    console.info("Guardando book", book)
 
     return this.bookRepository.save(book)
   }
