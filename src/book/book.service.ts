@@ -17,7 +17,7 @@ export class BookService {
     book: Book,
     authors: {
       name: string
-    }[],
+    }[] = book.authors,
   ): Promise<Book> {
     let author: Author
     if (!(await book.isValid())) {
