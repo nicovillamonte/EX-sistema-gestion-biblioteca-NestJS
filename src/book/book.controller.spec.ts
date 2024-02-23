@@ -97,17 +97,12 @@ describe('BookController', () => {
 
   it('Search a book by complete ISBN', async () => {
     const searchQuery = '978-3-16-148410-0'
-    console.info('LLEGO BIEN AL TEST')
 
     jest.spyOn(service, 'search').mockImplementation(async (query) => {
       return testBooks.filter((book) => book.ISBN === query.replace(/-/g, ''))
     })
 
-    console.info('ESPIO BIEN')
-
     const books = await controller.search(searchQuery)
-
-    console.info('BUSCO BIEN EL LIBRO', books)
 
     expect(service.search).toHaveBeenCalledTimes(1)
     expect(books).toEqual([testBooks[0]])
