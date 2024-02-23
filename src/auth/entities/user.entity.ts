@@ -87,10 +87,6 @@ export class User {
     }
   }
 
-  comparePassword(password: string): boolean {
-    return this.password === password
-  }
-
   async isValid(): Promise<boolean> {
     const errors = await validate(this)
     return errors.length === 0
