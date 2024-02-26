@@ -5,14 +5,12 @@ import { Lending } from './entities/lending.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
-import { BookService } from './../book/book.service'
 
 @Injectable()
 export class LendingService {
   constructor(
     @InjectRepository(Lending)
     private readonly lendingRepository: Repository<Lending>,
-    private readonly bookService: BookService,
     private dataSource: DataSource,
   ) {}
 
