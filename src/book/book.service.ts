@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common'
 import { Book } from './entities/book.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, Repository } from 'typeorm'
@@ -21,15 +25,13 @@ export class BookService {
   ): Promise<Book> {
     let author: Author
     if (!(await book.isValid())) {
-      throw new HttpException('Invalid book', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('Invalid book')
     }
 
-    // Check if book already exists
     const bookExists = await this.bookRepository.findOne({
       where: { ISBN: book.ISBN },
     })
-    if (bookExists)
-      throw new HttpException('Book already exists', HttpStatus.CONFLICT)
+    if (bookExists) throw new ConflictException('Book already exists')
 
     book.authors = await Promise.all(
       authors.map(async (_author) => {
