@@ -1,9 +1,9 @@
 import * as request from 'supertest'
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { BookModule } from '../src/book/book.module'
+import { BookModule } from '../../src/book/book.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { dataBaseConfig } from '../src/config/database-test.config'
+import { dataBaseConfig } from '../../src/config/database-test.config'
 
 describe('Book API (e2e)', () => {
   const path = '/book'

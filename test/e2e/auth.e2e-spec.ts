@@ -2,10 +2,10 @@ import * as request from 'supertest'
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthModule } from './../src/auth/auth.module'
-import { dataBaseConfig } from './../src/config/database-test.config'
-import { AuthService } from './../src/auth/auth.service'
-import { testUser } from './../src/data/mock/testUserData.mock'
+import { AuthModule } from '../../src/auth/auth.module'
+import { dataBaseConfig } from '../../src/config/database-test.config'
+import { AuthService } from '../../src/auth/auth.service'
+import { testUser } from '../../src/data/mock/testUserData.mock'
 
 describe('Auth API (e2e)', () => {
   let app: INestApplication

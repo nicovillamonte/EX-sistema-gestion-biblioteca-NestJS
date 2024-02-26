@@ -2,16 +2,16 @@ import * as request from 'supertest'
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { dataBaseConfig } from './../src/config/database-test.config'
-import { LendingModule } from './../src/lending/lending.module'
-import { BookService } from './../src/book/book.service'
-import { AuthService } from './../src/auth/auth.service'
-import { testUser } from './../src/data/mock/testUserData.mock'
-import { User } from './../src/auth/entities/user.entity'
-import { Book } from './../src/book/entities/book.entity'
-import { Author } from './../src/author/entities/author.entity'
-import { LendingService } from './../src/lending/lending.service'
-import { Lending } from './../src/lending/entities/lending.entity'
+import { dataBaseConfig } from '../../src/config/database-test.config'
+import { LendingModule } from '../../src/lending/lending.module'
+import { BookService } from '../../src/book/book.service'
+import { AuthService } from '../../src/auth/auth.service'
+import { testUser } from '../../src/data/mock/testUserData.mock'
+import { User } from '../../src/auth/entities/user.entity'
+import { Book } from '../../src/book/entities/book.entity'
+import { Author } from '../../src/author/entities/author.entity'
+import { LendingService } from '../../src/lending/lending.service'
+import { Lending } from '../../src/lending/entities/lending.entity'
 
 describe('Lending API (e2e)', () => {
   const path = '/lending'
@@ -142,5 +142,4 @@ describe('Lending API (e2e)', () => {
         .expect(HttpStatus.NOT_FOUND)
     })
   })
-
 })
