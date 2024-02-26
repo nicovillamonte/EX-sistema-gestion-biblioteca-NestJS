@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { User } from './entities/user.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -24,8 +29,7 @@ export class AuthService {
 
   async register(user: User) {
     const userIsValid = await user.isValid()
-    if (!userIsValid)
-      throw new HttpException('Invalid user', HttpStatus.BAD_REQUEST)
+    if (!userIsValid) throw new BadRequestException('Invalid user')
 
     user.password = await bcrypt.hash(user.password, 12)
 
@@ -33,7 +37,7 @@ export class AuthService {
       where: { email: user.email },
     })
     if (userExists) {
-      throw new HttpException('User already exists', HttpStatus.CONFLICT)
+      throw new ConflictException('User already exists')
     }
 
     return this.authRepository.save(user)
@@ -62,7 +66,7 @@ export class AuthService {
     })
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('User not found')
     }
 
     user = Object.assign(user, updateUserDto)
