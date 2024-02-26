@@ -89,9 +89,9 @@ export class User {
   takeABook(book: Book): Lending {
     const lending = book.borrowTo(this)
 
-    let lendingPlain = instanceToPlain(lending)
+    const lendingPlain = instanceToPlain(lending)
     delete lendingPlain.book.quantity
-    let lendingModified = plainToInstance(Lending, lendingPlain)
+    const lendingModified = plainToInstance(Lending, lendingPlain)
     return lendingModified
   }
 

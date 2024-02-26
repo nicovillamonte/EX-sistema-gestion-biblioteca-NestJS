@@ -1,8 +1,6 @@
 import {
   BadRequestException,
   ConflictException,
-  HttpException,
-  HttpStatus,
   Injectable,
 } from '@nestjs/common'
 import { User } from './../auth/entities/user.entity'
@@ -72,9 +70,9 @@ export class LendingService {
   }
 
   private hideBookQuantity(lending: Lending): Lending {
-    let lendingPlain = instanceToPlain(lending)
+    const lendingPlain = instanceToPlain(lending)
     delete lendingPlain.book.quantity
-    let lendingModified = plainToInstance(Lending, lendingPlain)
+    const lendingModified = plainToInstance(Lending, lendingPlain)
     return lendingModified
   }
 

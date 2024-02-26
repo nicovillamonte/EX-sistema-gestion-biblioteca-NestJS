@@ -4,8 +4,6 @@ import {
   Param,
   UseGuards,
   Req,
-  HttpException,
-  HttpStatus,
   Get,
   NotFoundException,
   ConflictException,
@@ -33,7 +31,7 @@ export class LendingController {
   @ApiOperation({ summary: 'Return a book' })
   @UseGuards(JwtAuthGuard)
   async return(@Req() req: Request, @Param('lendingID') lendingID: number) {
-    let { id: userId } = req.user as User
+    const { id: userId } = req.user as User
     const user = await this.authService.findOne(userId)
     if (!user) throw new NotFoundException('User not found')
 
@@ -51,7 +49,7 @@ export class LendingController {
   @ApiOperation({ summary: 'Lend a book' })
   @UseGuards(JwtAuthGuard)
   async create(@Req() req: Request, @Param('bookISBN') isbn: string) {
-    let { id: userId } = req.user as User
+    const { id: userId } = req.user as User
     const user = await this.authService.findOne(userId)
 
     if (!user) {

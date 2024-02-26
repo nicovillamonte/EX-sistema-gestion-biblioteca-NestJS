@@ -86,10 +86,6 @@ describe('AuthController', () => {
   })
 
   describe('login', () => {
-    const req = {
-      user: new User(1, testUser.name, testUser.email, testUser.password),
-    }
-
     it('should return a user', async () => {
       const mockUser = { userId: 1, username: 'testUser' }
       const req = { user: mockUser }

@@ -10,7 +10,7 @@ import { Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 import { AuthDto } from './dto/auth.dto'
 import { JwtService } from '@nestjs/jwt'
-import { UpdateUserDto, UserDto } from './dto/user.dto'
+import { UpdateUserDto } from './dto/user.dto'
 import { JWTToken } from './types/JWTToken.type'
 import { testUser } from './../data/mock/testUserData.mock'
 
@@ -52,12 +52,15 @@ export class AuthService {
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (isPasswordValid) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userResult } = user
       return {
         ...userResult,
         access_token: this.jwtService.sign(userResult),
       }
     }
+
+    return null
   }
 
   async updateUser(userId: number, updateUserDto: UpdateUserDto) {

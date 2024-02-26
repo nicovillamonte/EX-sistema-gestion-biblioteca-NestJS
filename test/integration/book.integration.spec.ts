@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { BookController } from './../../src/book/book.controller'
 import { BookService } from './../../src/book/book.service'
-import { Auth, FindOneOptions, Repository } from 'typeorm'
+import { FindOneOptions } from 'typeorm'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Book } from './../../src/book/entities/book.entity'
 import { AuthorService } from './../../src/author/author.service'
@@ -31,6 +31,7 @@ describe('Book Integration', () => {
       books.push(book)
       return Promise.resolve(book)
     }),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     find: jest.fn().mockImplementation((options: FindOneOptions) => {
       return books
     }),
@@ -40,7 +41,7 @@ describe('Book Integration', () => {
     }),
   }
 
-  let authors: Author[] = []
+  const authors: Author[] = []
   const authorRepositoryMock = {
     findOne: jest.fn().mockImplementation((options: FindOneOptions) => {
       const author = authors.find((item) => item.name === options.where['name'])

@@ -125,6 +125,7 @@ describe('Auth Integration', () => {
 
       jest
         .spyOn(service, 'validateUser')
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .mockImplementation(async ({ email, password }: AuthDto) => {
           const user = users.find((item) => item.email === email)
           if (!user) return null

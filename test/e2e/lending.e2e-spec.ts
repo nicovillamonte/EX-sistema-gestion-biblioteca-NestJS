@@ -71,8 +71,6 @@ describe('Lending API (e2e)', () => {
     await app.close()
   })
 
-  beforeEach(async () => {})
-
   describe('Lend Book (POST /lending)', () => {
     it('should return a 201 status and the lending information', async () => {
       const response = await request(app.getHttpServer())

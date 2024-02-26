@@ -17,7 +17,6 @@ import {
 } from '@nestjs/common'
 
 describe('LendingController', () => {
-  let service: LendingService
   let controller: LendingController
 
   let authService: AuthService
@@ -61,7 +60,6 @@ describe('LendingController', () => {
       ],
     }).compile()
 
-    service = module.get<LendingService>(LendingService)
     controller = module.get<LendingController>(LendingController)
     authService = module.get<AuthService>(AuthService)
     bookService = module.get<BookService>(BookService)

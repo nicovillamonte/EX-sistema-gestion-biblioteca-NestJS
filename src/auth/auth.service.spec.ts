@@ -120,6 +120,7 @@ describe('AuthService', () => {
       )
       expect(jwtService.sign).toHaveBeenCalled()
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userWithoutPassword } = user
       expect(result).toEqual({ ...jwtToken, ...userWithoutPassword })
     })
@@ -150,6 +151,8 @@ describe('AuthService', () => {
         email: user.email,
         password: 'wrongpassword',
       })
+
+      expect(result).toBeNull()
     })
   })
 

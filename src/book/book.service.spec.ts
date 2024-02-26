@@ -44,6 +44,7 @@ describe('BookService', () => {
               )
               return book
             }),
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             find: jest.fn((_) => {
               /** Implement in specific test */
             }),
@@ -178,6 +179,7 @@ describe('BookService', () => {
 
       jest
         .spyOn(repository, 'find')
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .mockImplementation(async (options: FindManyOptions<Book>) => {
           return items.filter((item) =>
             item.authors.some(

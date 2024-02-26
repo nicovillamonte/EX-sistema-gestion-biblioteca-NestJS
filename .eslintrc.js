@@ -25,6 +25,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',  // Advierte sobre variables no utilizadas en lugar de marcarlas como errores
     '@typescript-eslint/no-empty-function': 'warn',  // Advierte sobre funciones vacías en lugar de marcarlas como errores
   
-    'prettier/prettier': ['error', { endOfLine: 'off' }], // Evita el error: Delete `␍`eslintprettier/prettier error
+    'prettier/prettier': ['error', { endOfLine: 'auto' }], // Evita el error: Delete `␍`eslintprettier/prettier error
   },
 };
