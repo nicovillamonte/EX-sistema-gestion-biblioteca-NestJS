@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]  # Asegúrate de cambiar 'main' por el nombre de tu rama principal si es diferente
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.11.0]  # Puedes ajustar la versión de Node.js aquí
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm install
+    - name: Run Lint
+      run: npm run lint
+    - name: Build
+      run: npm run build
+    - name: Run unit tests
+      run: npm run test
+    - name: Run integration tests
+      run: npm run test:integration:prod
