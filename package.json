@@ -17,6 +17,7 @@
     "test:watch": "jest --detectOpenHandles --verbose --passWithNoTests --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:integration": "jest --config ./test/jest-integration.json --detectOpenHandles --verbose --passWithNoTests --watch",
     "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles --verbose --passWithNoTests --watch"
   },
   "dependencies": {
