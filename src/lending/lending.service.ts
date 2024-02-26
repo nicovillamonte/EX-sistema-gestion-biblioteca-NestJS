@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common'
 import { User } from './../auth/entities/user.entity'
 import { Book } from './../book/entities/book.entity'
 import { Lending } from './entities/lending.entity'
@@ -15,19 +21,18 @@ export class LendingService {
   ) {}
 
   async lendBook(user: User, book: Book): Promise<Lending> {
-    if (!book.isAvailable())
-      throw new HttpException('Book not available', HttpStatus.CONFLICT)
+    if (!book.isAvailable()) throw new ConflictException('Book not available')
 
     let lending: Lending
 
     try {
       lending = user.takeABook(book)
     } catch (e) {
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST)
+      throw new BadRequestException(e.message)
     }
 
     if (!(await lending.isValid())) {
-      throw new HttpException('Invalid lending', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('Invalid lending')
     }
 
     await this.dataSource.transaction(async (manager) => {
