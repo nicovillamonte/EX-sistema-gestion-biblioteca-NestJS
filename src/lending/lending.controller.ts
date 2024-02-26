@@ -7,6 +7,9 @@ import {
   HttpException,
   HttpStatus,
   Get,
+  NotFoundException,
+  ConflictException,
+  ForbiddenException,
 } from '@nestjs/common'
 import { LendingService } from './lending.service'
 import { Request } from 'express'
@@ -32,22 +35,14 @@ export class LendingController {
   async return(@Req() req: Request, @Param('lendingID') lendingID: number) {
     let { id: userId } = req.user as User
     const user = await this.authService.findOne(userId)
-
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+    if (!user) throw new NotFoundException('User not found')
 
     const lending = await this.lendingService.findOne(lendingID)
-
-    if (!lending)
-      throw new HttpException('Lending not found', HttpStatus.NOT_FOUND)
-
-    if (lending.returnDate)
-      throw new HttpException('Book already returned', HttpStatus.CONFLICT)
+    if (!lending) throw new NotFoundException('Lending not found')
+    if (lending.returnDate) throw new ConflictException('Book already returned')
 
     if (lending.user.id !== user.id)
-      throw new HttpException(
-        'User not allowed to return this book',
-        HttpStatus.FORBIDDEN,
-      )
+      throw new ForbiddenException('User not allowed to return this book')
 
     return this.lendingService.returnBook(lending)
   }
@@ -60,13 +55,13 @@ export class LendingController {
     const user = await this.authService.findOne(userId)
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('User not found')
     }
 
     const book = await this.bookService.search(isbn)
 
     if (book.length === 0) {
-      throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('Book not found')
     }
 
     return this.lendingService.lendBook(user, book[0])
@@ -78,7 +73,7 @@ export class LendingController {
     const user = await this.authService.findOne(userId)
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('User not found')
     }
 
     return this.lendingService.findUserLendingHistory(user)
