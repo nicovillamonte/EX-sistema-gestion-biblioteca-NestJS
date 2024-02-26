@@ -6,9 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  HttpStatus,
-  HttpException,
   UseGuards,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common'
 import { BookService } from './book.service'
 import {
@@ -76,12 +76,11 @@ export class BookController {
   ) {
     const bookToUpdate = (await this.bookService.search(isbn))[0]
     if (!bookToUpdate) {
-      throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('Book not found')
     }
     if (updateBookDto.ISBN && updateBookDto.ISBN !== isbn) {
-      throw new HttpException(
+      throw new BadRequestException(
         'ISBN cannot be updated. Please delete and create a new book.',
-        HttpStatus.BAD_REQUEST,
       )
     }
 
@@ -102,7 +101,7 @@ export class BookController {
     const book = (await this.bookService.search(isbn))[0]
 
     if (!book) {
-      throw new HttpException('Book not found', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('Book not found')
     }
 
     return this.bookService.remove(book)
