@@ -72,8 +72,6 @@ export class BookService {
       book.authors = updatedAuthors
     }
 
-    console.info("Guardando book", book)
-
     return this.bookRepository.save(book)
   }
 
