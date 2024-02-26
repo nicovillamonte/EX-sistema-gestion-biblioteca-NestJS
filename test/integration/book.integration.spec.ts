@@ -13,7 +13,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 
-describe('BookController', () => {
+describe('Book Integration', () => {
   let bookController: BookController
   let bookService: BookService
 
