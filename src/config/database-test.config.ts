@@ -7,7 +7,6 @@ export const dataBaseConfig: TypeOrmModuleOptions = {
   username: 'root',
   password: '',
   database: 'bibliogestion_test',
-  // entities: [Book],
   autoLoadEntities: true,
   synchronize: true,
 }

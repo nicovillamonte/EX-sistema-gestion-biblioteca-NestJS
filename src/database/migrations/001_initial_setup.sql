@@ -1,2 +1,2 @@
-CREATE DATABASE bibliogestion;
-CREATE DATABASE bibliogestion_test;
+CREATE DATABASE IF NOT EXISTS bibliogestion;
+CREATE DATABASE IF NOT EXISTS bibliogestion_test;

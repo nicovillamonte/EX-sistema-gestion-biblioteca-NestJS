@@ -31,7 +31,7 @@
   - [X] **Pruebas de Integración**: Escribe pruebas para verificar el comportamiento de los endpoints de tu API.
   - [X] **Pruebas E2E**: Escribe pruebas de extremo a extremo para verificar el comportamiento de la API en su conjunto.
 
-	- [ ] **CI/CD**: Configura un pipeline de CI/CD para tu aplicación utilizando herramientas como GitHub Actions, GitLab CI, CircleCI, o Travis CI.
+	- [X] **CI/CD**: Configura un pipeline de CI/CD para tu aplicación utilizando herramientas como GitHub Actions, GitLab CI, CircleCI, o Travis CI.
 
 
 **Contenedorización**: 
