@@ -35,6 +35,6 @@
 
 
 **Contenedorización**: 
-  - [ ] Dockeriza tu aplicación para facilitar su despliegue y ejecución en diferentes entornos.
+  - [X] Dockeriza tu aplicación para facilitar su despliegue y ejecución en diferentes entornos.
 
 Este ejercicio es una excelente manera de practicar y demostrar tus habilidades en el desarrollo d APIs REST, desde la planificación y diseño hasta la implementación y documentación. Puedes elegir el lenguaje de programación que prefieras, pero algunos populares para el desarrollo de backend incluyen Node.js, Python (con frameworks como Flask o Django), y Java (con Spring Boot).
